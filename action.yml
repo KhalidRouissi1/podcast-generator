@@ -1,18 +1,20 @@
-name: "Podcast generator"
-author: "Khaled Rouissi"
-description: "Generate a feed for a podcast from a YAML file"
-runs:
-  using: "docker"
-  image: "Dockerfile"
-branding:
-  icon: "git-branch"
-  color: "red"
-input: 
-  email: 
-    description: "The commiter's email address"
-    required: true
-    default: ${{ github.actor }}@localhost
-  name:
-    description: "The commiter's name"
-    required: true
-    default: ${{ github.actor }}
+name: Generate Podcast Feeds
+
+on: 
+  push:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Run feed generator
+        uses: KhalidRouissi1/podcast-generator@main
+        with:
+          email: ${{ github.actor }}@localhost
+          name: ${{ github.actor }}
